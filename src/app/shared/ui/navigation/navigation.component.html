@@ -1,0 +1,36 @@
+<div *ngIf="!nav.visible" style="margin-bottom: 70px !important;"></div>
+<header class="header-application" *ngIf="nav.visible">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <ul class="nav navbar-nav navbar-left">
+            <li routerLinkActive="active">
+                <a class="link" [routerLink]="['/welcome']">
+                    <em
+                        class="glyphicon glyphicon-home"
+                        [ngClass]="{ online: internetConnectionAvailable, offline: !internetConnectionAvailable }"
+                    ></em>
+                    <span class="line-text">Home</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" style="float:right">
+            <li routerLinkActive="active">
+                <a class="link" [routerLink]="['/overview']">
+                    <em class="glyphicon glyphicon-eye-open"></em>
+                    <span class="line-text">Overview</span>
+                </a>
+            </li>
+            <li routerLinkActive="active" style="margin-right:30px;">
+                <a class="link" [routerLink]="['/dashboard']">
+                    <em class="glyphicon glyphicon-dashboard"></em>
+                    <span class="line-text">Dashboard</span>
+                </a>
+            </li>
+            <li routerLinkActive="active" style="margin-right:15px;">
+                <a class="link" (click)="logoutButtonClicked.emit()">
+                    <em class="glyphicon glyphicon-log-out"></em>
+                    <span class="line-text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>

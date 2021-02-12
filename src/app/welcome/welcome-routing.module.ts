@@ -1,0 +1,19 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { WelcomeComponent } from 'app/welcome/welcome.component';
+
+const routes: Routes = [
+    {
+        path: '',
+        component: WelcomeComponent
+    }
+];
+
+@NgModule({
+    imports: [RouterModule.forChild(routes)],
+
+    exports: [RouterModule],
+
+    providers: []
+})
+export class WelcomeRoutingModule {}

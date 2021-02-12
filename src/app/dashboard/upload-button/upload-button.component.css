@@ -1,0 +1,22 @@
+.text-center label input {
+    display: none;
+}
+
+.text-center label {
+    border-radius: 50%;
+    border: 0;
+    /* background: rgb(68, 212, 39); */
+    background: #12bce7;
+}
+
+.text-center label:hover,
+.text-center label:active,
+.text-center label:focus {
+    /* background: rgb(137, 220, 118); */
+    background: #8fdbee;
+}
+
+span.glyphicon {
+    padding: 12px;
+    font-size: 3em;
+}

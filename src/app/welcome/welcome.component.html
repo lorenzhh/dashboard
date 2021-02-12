@@ -1,0 +1,57 @@
+<h3>Guten Tag</h3>
+<div class="list-first">
+    <h4>Anzahl der Kataloge, die in den nächsten drei Jahre auslaufen!</h4>
+    <div class="list-element">
+        <p>{{ year }}</p>
+        <app-shared-chart
+            [chartData]="chartDataOfThisYear"
+            [labels]="barLabels"
+            [type]="barChartType"
+        ></app-shared-chart>
+    </div>
+    <div class="list-element">
+        <p>{{ year + 1 }}</p>
+        <app-shared-chart
+            [chartData]="chartDataOfNextYear"
+            [labels]="barLabels"
+            [type]="barChartType"
+        ></app-shared-chart>
+    </div>
+    <div class="list-element">
+        <p>{{ year + 2 }}</p>
+        <app-shared-chart
+            [chartData]="chartDataOfNextNextYear"
+            [labels]="barLabels"
+            [type]="barChartType"
+        ></app-shared-chart>
+    </div>
+</div>
+
+<div class="list-first">
+    <h4>Kataloge die in fongenden Jahre hochgeladen</h4>
+
+    <div class="list-element">
+        <p>{{ year }}</p>
+        <app-shared-chart
+            [chartData]="chartDataOfThisYear"
+            [labels]="barLabels"
+            [type]="barChartType"
+        ></app-shared-chart>
+    </div>
+    <div class="list-element">
+        <p>{{ year + 1 }}</p>
+        <app-shared-chart
+            [chartData]="chartDataOfNextYear"
+            [labels]="barLabels"
+            [type]="barChartType"
+        ></app-shared-chart>
+    </div>
+    <div class="list-element">
+        <p>{{ year + 2 }}</p>
+        <app-shared-chart
+            [chartData]="chartDataOfNextNextYear"
+            [labels]="barLabels"
+            [type]="barChartType"
+        ></app-shared-chart>
+    </div>
+</div>

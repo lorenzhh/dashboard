@@ -1,0 +1,50 @@
+.modal-open {
+    overflow: hidden !important;
+    position: relative
+}
+
+.modal-dialog {
+    margin-top: 10%;
+    overflow: hidden;
+}
+
+.modal-content {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.modal-header {
+    position: relative;
+    padding: 0 0 0 0;
+}
+
+.modal-header .title {
+    float: left;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.modal-header .button {
+    float: right;
+}
+
+.modal-footer {
+    width: 100%;
+    position: relative;
+    padding: 5px;
+}
+
+.modal-footer .buttons {
+    float: right;
+}
+
+.close {
+    font-weight: bold;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.5s;
+    outline: none;
+    padding: 5px;
+}

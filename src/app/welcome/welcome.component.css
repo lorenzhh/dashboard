@@ -1,0 +1,18 @@
+.list-first {
+    width: 100%;
+    float: left;
+    margin-bottom: 1%;
+}
+
+.list-element {
+    border-radius: 5px;
+    display: block;
+    float: left;
+    /* background-color: white; */
+    margin-left: 1%;
+    height: 250px
+}
+
+app-shared-chart {
+    position: relative;
+}

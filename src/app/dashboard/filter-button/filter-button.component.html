@@ -1,0 +1,12 @@
+<div class="dropdown">
+    <button class="dropbtn">
+        <h1 style="display: inline">
+            <span class="glyphicon glyphicon-filter"> </span>
+        </h1>
+    </button>
+    <div class="dropdown-content">
+        <a (click)="filterOption.emit(0)">Alle</a>
+        <a (click)="filterOption.emit(1)">Freigegeben</a>
+        <a (click)="filterOption.emit(2)">Nicht freigegeben</a>
+    </div>
+</div>

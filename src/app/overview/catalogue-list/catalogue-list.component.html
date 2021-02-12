@@ -1,0 +1,39 @@
+<p style="text-align:center;">{{ title }}: {{ catalogues.length }}</p>
+<div class="responstable">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Ablauf Datum</th>
+                <th>-</th>
+            </tr>
+        </thead>
+        <tbody class="testing">
+            <tr
+                class="list"
+                [ngClass]="{
+                    ok: isGreen(catalogue.expiryDate),
+                    soon: isYellow(catalogue.expiryDate),
+                    expired: !isGreen(catalogue.expiryDate)
+                }"
+                *ngFor="let catalogue of catalogues"
+            >
+                <td>
+                    {{ catalogue.name }}
+                </td>
+                <td>
+                    {{ catalogue.id }}
+                </td>
+                <td>
+                    {{ catalogue.expiryDate | datex: 'DD/MM/YYYY' }}
+                </td>
+                <td>
+                    <button class="edit" (click)="catalogueSelected.emit(catalogue)">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,22 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="title">
+                <h4>{{ title }}</h4>
+            </div>
+            <div class="button">
+                <button class="close" (click)="closeModal()" type="button">&times;</button>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p style="font-size:18px; white-space:pre-wrap; word-wrap: break-word;">{{ body }}</p>
+            <p style="font-size:15px; white-space:pre-wrap; word-wrap: break-word;">{{ information }}</p>
+        </div>
+        <div class="modal-footer">
+            <div class="buttons">
+                <a class="btn btn-danger" (click)="confirmModal()" type="button">{{ option }}</a>
+                <a class="btn btn-default" (click)="closeModal()" type="button">Abbrechen</a>
+            </div>
+        </div>
+    </div>
+</div>

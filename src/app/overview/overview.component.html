@@ -1,0 +1,13 @@
+<app-shared-chart
+    [chartData]="chartData"
+    [labels]="labels"
+    [type]="pieType"
+    (chartSelected)="selectedPie($event)"
+></app-shared-chart>
+
+<app-catalogue-list
+    [catalogues]="catalogues | async"
+    [title]="title"
+    (catalogueSelected)="selectedCatalogue($event)"
+    *ngIf="(catalogues | async)"
+></app-catalogue-list>

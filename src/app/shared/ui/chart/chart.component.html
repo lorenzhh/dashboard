@@ -1,0 +1,13 @@
+<div class="chart">
+    <div class="charts">
+        <canvas
+            [chartType]="type"
+            [colors]="colorsEmptyObject"
+            [datasets]="chartData"
+            [labels]="labels"
+            [options]="options"
+            (chartClick)="chartSelected.emit($event)"
+            baseChart
+        ></canvas>
+    </div>
+</div>

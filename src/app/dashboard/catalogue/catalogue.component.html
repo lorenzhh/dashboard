@@ -1,0 +1,31 @@
+<!-- <pdf-viewer [src]="catalogue.path" [show-all]="false" [zoom]="0" [page]="1" [original-size]="false"></pdf-viewer> -->
+<div class="list">
+    <!-- [routerLink]="['/dashboard', catalogue.id]" -->
+    <div
+        class="file"
+        [ngClass]="{ approved: catalogue.approved, notApproved: !catalogue.approved }"
+        *ngFor="let catalogue of catalogues"
+    >
+        <div class="overlay"></div>
+        <div class="title">{{ catalogue.name }}</div>
+        <div class="delete" *ngIf="!catalogue.approved">
+            <button class="close" (click)="deleteAction.emit(catalogue)" type="button">&times;</button>
+        </div>
+        <div class="export" *ngIf="!catalogue.approved">
+            <span class="glyphicon glyphicon-share" (click)="approveAction.emit(catalogue)"></span>
+        </div>
+
+        <div class="info">
+            <p>Ablaufdatum: {{ catalogue.expiryDate | datex: 'DD/MM/YYYY' }}</p>
+            <p>Lieferant: Firma Bananna</p>
+        </div>
+        <div class="buttons">
+            <div><a [href]="catalogue.path" type="button" target="_blank">Öffnen</a></div>
+            <div>
+                <button (click)="downloadAction.emit(catalogue)" type="button">
+                    <span class="glyphicon glyphicon-save"></span> Herunterladen
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

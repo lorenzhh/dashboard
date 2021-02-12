@@ -1,0 +1,87 @@
+ .header-application {
+     height: auto;
+     text-align: center;
+     margin-bottom: 70px !important;
+ }
+ 
+ .navbar-inverse {
+     background-color: #222;
+     border: 0;
+     height: 59px;
+ }
+ 
+ .navbar .navbar-nav {
+     float: left;
+     margin-left: 0px !important;
+     margin-right: 0px !important;
+     margin-top: 0px !important;
+ }
+ 
+ .navbar .navbar-nav li {
+     float: left;
+     width: 70px;
+ }
+ 
+ i.glyphicon {
+     text-align: center;
+     margin-bottom: 8px;
+     display: block;
+     font-size: 1.3em;
+ }
+ 
+ .navbar .navbar-nav>li>a {
+     color: #12bce7;
+ }
+ 
+ .navbar-inverse .navbar-nav>li>a:hover {
+     color: #fff;
+     background-color: transparent;
+     outline: none;
+     cursor: pointer;
+ }
+ 
+ .navbar-inverse .navbar-nav>.active>a,
+ .navbar-inverse .navbar-nav>.active>a:hover,
+ .navbar-inverse .navbar-nav>.active>a:focus {
+     color: #D4276B;
+     border-bottom: solid 3px #D4276B;
+     background-color: transparent;
+     outline: none;
+ }
+ 
+ :host .online {
+     color: rgba(71, 255, 0, 0.8);
+ }
+ 
+ :host .online:hover {
+     color: rgba(71, 255, 0, 0.5);
+ }
+ 
+ :host .offline {
+     color: rgba(255, 0, 0, 0.8);
+ }
+ 
+ :host .offline:hover {
+     color: rgba(255, 0, 0, 0.5);
+ }
+ 
+ .line-text {
+     font-size: 1.2rem;
+     text-align: center;
+     display: block;
+     margin-bottom: 6px;
+ }
+ 
+ .link {
+     position: relative;
+     padding-top: 10px;
+     padding-left: 1px;
+     padding-bottom: 0px;
+     padding-right: 1px;
+     margin-right: 0;
+     margin-left: 0;
+     margin-bottom: 0px;
+     margin-top: 0px;
+     margin-right: 0px;
+     border: 0;
+ }

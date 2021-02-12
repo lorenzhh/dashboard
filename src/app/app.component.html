@@ -1,0 +1,9 @@
+<main>
+    <app-navigation
+        [internetConnectionAvailable]="internetConnectionAvailable | async"
+        (logoutButtonClicked)="logout()"
+    ></app-navigation>
+
+    <router-outlet></router-outlet>
+    <simple-notifications [options]="notificationOptions"></simple-notifications>
+</main>

@@ -1,0 +1,14 @@
+<div style="position: relative; display: inline-block;">
+    <div class="form">
+        <form [formGroup]="searchForm">
+            <input
+                id="searchInputId"
+                class="form-control"
+                [formControl]="searchForm.controls['id']"
+                (keyup)="searchOption.emit(searchForm.value)"
+                type="text"
+                required
+            />
+        </form>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="header">
+    <h1>{{ (catalogues | async)?.length }} Kataloge</h1>
+    <app-search-button (searchOption)="filterOption($event)"></app-search-button>
+    <app-filter-button (filterOption)="handleOption($event)"></app-filter-button>
+</div>
+<app-catalogue
+    [catalogues]="catalogues | async"
+    (approveAction)="approveCatalogue($event)"
+    (deleteAction)="deleteCatalogue($event)"
+    (downloadAction)="downloadCatalogue($event)"
+></app-catalogue>
+<app-spinner [isLoading]="isLoading | async"></app-spinner>
+<app-upload-button (uploadButtonSubmitted)="uploadCatalogue($event)"></app-upload-button>
