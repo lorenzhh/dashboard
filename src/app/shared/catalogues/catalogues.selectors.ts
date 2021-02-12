@@ -193,3 +193,9 @@ export function DateCheckService(catalogues: Catalogue[]) {
     }
     return [0, 0, 0];
 }
+
+export const cataloguesOnSearch = createSelector(
+    catalogueState,
+    (state: State, probs: { id: number }) =>
+        state.catalogues.filter((catalogue: Catalogue) => catalogue.id === probs.id)
+);

@@ -13,7 +13,5 @@ export const reducers: ActionReducerMap<AppState> = {
     catalogue: CatalogueReducer
 };
 
-export const REDUCERS_TOKEN = new InjectionToken<ActionReducerMap<AppState>>(
-    'Registered Reducers'
-);
+export const REDUCERS_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('Registered Reducers');
 Object.assign(REDUCERS_TOKEN, reducers);

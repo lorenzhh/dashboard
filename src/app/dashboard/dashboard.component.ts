@@ -6,6 +6,7 @@ import { CatalougeActions } from 'app/shared/catalogues/catalogues.actions';
 import {
     allCatalogues,
     aprrovedCatalogues,
+    cataloguesOnSearch,
     isLoading,
     notAprrovedCatalogues
 } from 'app/shared/catalogues/catalogues.selectors';
@@ -110,9 +111,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     filterOption(form: any) {
-        console.log(form);
         if (form.id) {
-            // this.catalogues = this.store.select(getCataloguesOnSearch(+form.id));
+            this.catalogues = this.store.pipe(select(cataloguesOnSearch, { id: +form.id }));
         } else {
             this.showAll();
         }
