@@ -18,19 +18,10 @@ const routes: Routes = [
         redirectTo: '',
         pathMatch: 'full'
     }
-
 ];
 
 @NgModule({
-    imports: [
-        RouterModule.forChild(routes)
-    ],
-
-    exports: [
-        RouterModule
-    ],
-
-    providers: []
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
-
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {}

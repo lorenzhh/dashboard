@@ -1,20 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { overviewAnimation } from 'app/shared/animation/overview.Animation';
 import { Catalogue } from 'app/shared/catalogues/catalogue.model';
 import { CatalougeActions } from 'app/shared/catalogues/catalogues.actions';
 import {
     DateCheckService,
-    getAllCataloguesForUser,
-    getExpiredCatalogues,
-    getOkCatalogues,
-    getSoonCatalogues
+    allCatalogues,
+    expiredCatalogues,
+    okCatalogues,
+    soonCatalogues
 } from 'app/shared/catalogues/catalogues.selectors';
 import { ChartData } from 'app/shared/chart/chart-data.model';
 import { NavBarService } from 'app/shared/services/nav-bar.service';
 import { AppState } from 'app/shared/store/app.model';
 import { User } from 'app/shared/user/user.model';
-import { getCurrentUser } from 'app/shared/user/user.selectors';
+import { currentUser } from 'app/shared/user/user.selectors';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -40,9 +40,9 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
     constructor(readonly nav: NavBarService, readonly store: Store<AppState>) {
         this.activeUserSubscribtion = this.store
-            .select(getCurrentUser())
+            .select(currentUser)
             .subscribe(activeUser => (this.currentUser = activeUser));
-        this.catalogues = this.store.select(getAllCataloguesForUser());
+        this.catalogues = this.store.pipe(select(allCatalogues));
         this.Subscription = this.catalogues.subscribe(catalogues => {
             this.chartData = [
                 {
@@ -72,19 +72,19 @@ export class OverviewComponent implements OnInit, OnDestroy {
             const selectedChart = e.active[0]._index;
             if (selectedChart === 0) {
                 this.title = 'Abgelaufene Kataloge';
-                this.catalogues = this.store.select(getExpiredCatalogues());
+                this.catalogues = this.store.pipe(select(expiredCatalogues));
             }
             if (selectedChart === 1) {
                 this.title = 'Kataloge, die bald ablaufen';
-                this.catalogues = this.store.select(getSoonCatalogues());
+                this.catalogues = this.store.pipe(select(soonCatalogues));
             }
             if (selectedChart === 2) {
                 this.title = 'Kataloge, die in Ordnung sind';
-                this.catalogues = this.store.select(getOkCatalogues());
+                this.catalogues = this.store.pipe(select(okCatalogues));
             }
         } else {
             this.title = 'Alle Kataloge';
-            this.catalogues = this.store.select(getAllCataloguesForUser());
+            this.catalogues = this.store.pipe(select(allCatalogues));
         }
     }
 }

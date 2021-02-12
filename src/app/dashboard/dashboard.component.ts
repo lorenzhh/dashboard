@@ -1,19 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { dashboardAnimation } from 'app/shared/animation/dashboard.animation';
 import { Catalogue } from 'app/shared/catalogues/catalogue.model';
 import { CatalougeActions } from 'app/shared/catalogues/catalogues.actions';
 import {
-    getAllCataloguesForUser,
-    getAprrovedCatalogues,
-    getCataloguesOnSearch,
-    getIsLoading,
-    getNotAprrovedCatalogues
+    allCatalogues,
+    aprrovedCatalogues,
+    isLoading,
+    notAprrovedCatalogues
 } from 'app/shared/catalogues/catalogues.selectors';
 import { NavBarService } from 'app/shared/services/nav-bar.service';
 import { AppState } from 'app/shared/store/app.model';
 import { User } from 'app/shared/user/user.model';
-import { getCurrentUser } from 'app/shared/user/user.selectors';
+import { currentUser } from 'app/shared/user/user.selectors';
 import { Observable, Subscription } from 'rxjs';
 
 interface HTMLInputEvent extends Event {
@@ -40,12 +39,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     zipType = 'application/x-zip-compressed';
 
     constructor(readonly nav: NavBarService, readonly store: Store<AppState>) {
-        this.isLoading = this.store.select(getIsLoading());
+        this.isLoading = this.store.pipe(select(isLoading));
 
         this.activeUserSubscribtion = this.store
-            .select(getCurrentUser())
+            .select(currentUser)
             .subscribe(activeUser => (this.currentUser = activeUser));
-        this.catalogues = this.store.select(getAllCataloguesForUser());
+        this.catalogues = this.store.pipe(select(allCatalogues));
     }
 
     ngOnInit() {
@@ -87,15 +86,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     showApproved() {
-        this.catalogues = this.store.select(getAprrovedCatalogues());
+        this.catalogues = this.store.pipe(select(aprrovedCatalogues));
     }
 
     showNotApproved() {
-        this.catalogues = this.store.select(getNotAprrovedCatalogues());
+        this.catalogues = this.store.pipe(select(notAprrovedCatalogues));
     }
 
     showAll() {
-        this.catalogues = this.store.select(getAllCataloguesForUser());
+        this.catalogues = this.store.pipe(select(allCatalogues));
     }
 
     handleOption(selecetedOption: number) {
@@ -113,7 +112,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     filterOption(form: any) {
         console.log(form);
         if (form.id) {
-            this.catalogues = this.store.select(getCataloguesOnSearch(+form.id));
+            // this.catalogues = this.store.select(getCataloguesOnSearch(+form.id));
         } else {
             this.showAll();
         }

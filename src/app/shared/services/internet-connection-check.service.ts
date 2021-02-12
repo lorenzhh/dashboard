@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { fromEvent, merge, Observable, of } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class InternetConnectionCheckService {
     online$: Observable<boolean>;
 

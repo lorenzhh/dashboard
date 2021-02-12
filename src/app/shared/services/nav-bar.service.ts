@@ -5,7 +5,7 @@ import { Layout } from 'app/shared/layout/layout.model';
 import { AppState } from 'app/shared/store/app.model';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class NavBarService {
     visible: boolean;
     activeView: Observable<string>;

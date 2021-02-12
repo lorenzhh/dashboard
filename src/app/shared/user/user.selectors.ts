@@ -1,9 +1,14 @@
-import { AppState } from 'app/shared/store/app.model';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { State } from './user.reducer';
 
-export function getCurrentUser() {
-    return (state: AppState) => state.user.user;
-}
+export const UserState = createFeatureSelector<State>('user');
 
-export function getUserIsLoading() {
-    return (state: AppState) => state.user.isLoading;
-}
+export const currentUser = createSelector(
+    UserState,
+    state => state.user
+);
+
+export const isLoading = createSelector(
+    UserState,
+    state => state.isLoading
+);

@@ -10,27 +10,21 @@ export const routes: Routes = [
     },
     {
         path: 'welcome',
-        loadChildren: () =>
-            import('app/welcome/welcome.module').then(m => m.WelcomeModule),
+        loadChildren: () => import('app/welcome/welcome.module').then(m => m.WelcomeModule),
         canActivate: [AuthGuard]
     },
     {
         path: 'login',
-        loadChildren: () =>
-            import('app/login/login.module').then(m => m.LoginModule)
+        loadChildren: () => import('app/login/login.module').then(m => m.LoginModule)
     },
     {
         path: 'overview',
-        loadChildren: () =>
-            import('app/overview/overview.module').then(m => m.OverviewModule),
+        loadChildren: () => import('app/overview/overview.module').then(m => m.OverviewModule),
         canActivate: [AuthGuard]
     },
     {
         path: 'dashboard',
-        loadChildren: () =>
-            import('app/dashboard/dashboard.module').then(
-                m => m.DashboardModule
-            ),
+        loadChildren: () => import('app/dashboard/dashboard.module').then(m => m.DashboardModule),
         canActivate: [AuthGuard]
     },
     {
@@ -41,10 +35,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [
-        RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })
-    ],
-    exports: [RouterModule],
-    providers: []
+    imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+    exports: [RouterModule]
 })
 export class AppRoutingModule {}

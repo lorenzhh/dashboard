@@ -9,7 +9,7 @@ import { environment } from 'environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CataloguesService {
     internetConnectionAvailable: boolean;
 

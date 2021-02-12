@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Catalogue } from 'app/shared/catalogues/catalogue.model';
 import { CatalougeActions } from 'app/shared/catalogues/catalogues.actions';
 import {
-    getCataloguesOfNextNextYear,
-    getCataloguesOfNextYear,
-    getCataloguesOfThisYear,
+    cataloguesOfNextTwoYear,
+    cataloguesOfNextYear,
+    cataloguesOfThisYear,
     getMonthOfYear,
     getThisYear
 } from 'app/shared/catalogues/catalogues.selectors';
@@ -13,7 +13,7 @@ import { ChartData } from 'app/shared/chart/chart-data.model';
 import { NavBarService } from 'app/shared/services/nav-bar.service';
 import { AppState } from 'app/shared/store/app.model';
 import { User } from 'app/shared/user/user.model';
-import { getCurrentUser } from 'app/shared/user/user.selectors';
+import { currentUser } from 'app/shared/user/user.selectors';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -57,10 +57,10 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
     constructor(readonly nav: NavBarService, readonly store: Store<AppState>) {
         this.activeUserSubscribtion = this.store
-            .select(getCurrentUser())
+            .select(currentUser)
             .subscribe(activeUser => (this.currentUser = activeUser));
 
-        this.cataloguesOfThisYear = this.store.select(getCataloguesOfThisYear());
+        this.cataloguesOfThisYear = this.store.pipe(select(cataloguesOfThisYear));
         this.cataloguesOfThisYearSubscription = this.cataloguesOfThisYear.subscribe(
             catalogues =>
                 (this.chartDataOfThisYear = [
@@ -69,7 +69,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
                     }
                 ])
         );
-        this.cataloguesOfNextYear = this.store.select(getCataloguesOfNextYear());
+        this.cataloguesOfNextYear = this.store.pipe(select(cataloguesOfNextYear));
         this.cataloguesOfNextYearSubscription = this.cataloguesOfNextYear.subscribe(
             catalogues =>
                 (this.chartDataOfNextYear = [
@@ -78,7 +78,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
                     }
                 ])
         );
-        this.cataloguesOfNextNextYear = this.store.select(getCataloguesOfNextNextYear());
+        this.cataloguesOfNextNextYear = this.store.pipe(select(cataloguesOfNextTwoYear));
         this.cataloguesOfNextNextYearSubscription = this.cataloguesOfNextNextYear.subscribe(
             catalogues =>
                 (this.chartDataOfNextNextYear = [

@@ -8,14 +8,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { AppRoutingModule } from 'app/app-routing';
 import { AppComponent } from 'app/app.component';
-import { CataloguesService } from 'app/shared/catalogues/catalogues.service';
-import { GuardsModule } from 'app/shared/guards/guards.module';
-import { ServicesModule } from 'app/shared/services/services.module';
 import { effects } from 'app/shared/store/effects';
 import { reducers, REDUCERS_TOKEN } from 'app/shared/store/reducers';
-import { NotificationService } from 'app/shared/ui/notification/notification.service';
 import { UiModule } from 'app/shared/ui/ui.module';
-import { UserService } from 'app/shared/user/user.service';
 
 @NgModule({
     declarations: [AppComponent],
@@ -23,10 +18,8 @@ import { UserService } from 'app/shared/user/user.service';
     imports: [
         BrowserModule,
         HttpClientModule,
-        ServicesModule,
         AppRoutingModule,
         UiModule,
-        GuardsModule,
         BrowserAnimationsModule,
         SimpleNotificationsModule.forRoot(),
         EffectsModule.forRoot(effects),
@@ -35,9 +28,6 @@ import { UserService } from 'app/shared/user/user.service';
     ],
 
     providers: [
-        NotificationService,
-        UserService,
-        CataloguesService,
         { provide: REDUCERS_TOKEN, useValue: reducers },
         { provide: LOCALE_ID, useValue: 'de-DE' }
     ],

@@ -1,61 +1,70 @@
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Catalogue } from 'app/shared/catalogues/catalogue.model';
-import { AppState } from 'app/shared/store/app.model';
 import * as moment from 'moment';
+import { State } from './catalogues.reducer';
 
-export function getIsLoading() {
-    return (state: AppState) => state.catalogue.isLoading;
-}
+export const catalogueState = createFeatureSelector<State>('catalogue');
 
-export function getAllCataloguesForUser() {
-    return (state: AppState) => state.catalogue.catalogues;
-}
+export const isLoading = createSelector(
+    catalogueState,
+    state => state.isLoading
+);
 
-export function getSelectedCatalogue() {
-    return (state: AppState) => state.catalogue.selected;
-}
+export const allCatalogues = createSelector(
+    catalogueState,
+    state => state.catalogues
+);
 
-export function getCataloguesOfThisYear() {
-    return (state: AppState) =>
-        state.catalogue.catalogues.filter(
+export const selectedCatalogue = createSelector(
+    catalogueState,
+    state => state.selected
+);
+
+export const cataloguesOfThisYear = createSelector(
+    catalogueState,
+    state =>
+        state.catalogues.filter(
             (catalogue: Catalogue) => moment(catalogue.expiryDate).year() === moment().year()
-        );
-}
+        )
+);
 
-export function getCataloguesOfNextYear() {
-    return (state: AppState) =>
-        state.catalogue.catalogues.filter(
+export const cataloguesOfNextYear = createSelector(
+    catalogueState,
+    state =>
+        state.catalogues.filter(
             (catalogue: Catalogue) =>
                 moment(catalogue.expiryDate).year() ===
                 moment()
                     .add(1, 'years')
                     .year()
-        );
-}
+        )
+);
 
-export function getCataloguesOfNextNextYear() {
-    return (state: AppState) =>
-        state.catalogue.catalogues.filter(
+export const cataloguesOfNextTwoYear = createSelector(
+    catalogueState,
+    state =>
+        state.catalogues.filter(
             (catalogue: Catalogue) =>
                 moment(catalogue.expiryDate).year() ===
                 moment()
                     .add(2, 'years')
                     .year()
-        );
-}
+        )
+);
 
 export function getThisYear() {
     return moment().year();
 }
 
-export function getAprrovedCatalogues() {
-    return (state: AppState) =>
-        state.catalogue.catalogues.filter((catalogue: Catalogue) => catalogue.approved);
-}
+export const aprrovedCatalogues = createSelector(
+    catalogueState,
+    state => state.catalogues.filter((catalogue: Catalogue) => catalogue.approved)
+);
 
-export function getNotAprrovedCatalogues() {
-    return (state: AppState) =>
-        state.catalogue.catalogues.filter((catalogue: Catalogue) => !catalogue.approved);
-}
+export const notAprrovedCatalogues = createSelector(
+    catalogueState,
+    state => state.catalogues.filter((catalogue: Catalogue) => !catalogue.approved)
+);
 
 export function getMonthOfYear(catalogues: Catalogue[]) {
     let jan = 0;
@@ -118,16 +127,18 @@ export function getMonthOfYear(catalogues: Catalogue[]) {
     return [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 }
 
-export function getExpiredCatalogues() {
-    return (state: AppState) =>
-        state.catalogue.catalogues.filter((catalogue: Catalogue) =>
+export const expiredCatalogues = createSelector(
+    catalogueState,
+    state =>
+        state.catalogues.filter((catalogue: Catalogue) =>
             moment(catalogue.expiryDate).isBefore(moment())
-        );
-}
+        )
+);
 
-export function getSoonCatalogues() {
-    return (state: AppState) =>
-        state.catalogue.catalogues.filter(
+export const soonCatalogues = createSelector(
+    catalogueState,
+    state =>
+        state.catalogues.filter(
             (catalogue: Catalogue) =>
                 moment(catalogue.expiryDate).isAfter(moment()) &&
                 moment(catalogue.expiryDate).isBefore(
@@ -135,12 +146,13 @@ export function getSoonCatalogues() {
                         .add(365, 'days')
                         .endOf('day')
                 )
-        );
-}
+        )
+);
 
-export function getOkCatalogues() {
-    return (state: AppState) =>
-        state.catalogue.catalogues.filter(
+export const okCatalogues = createSelector(
+    catalogueState,
+    state =>
+        state.catalogues.filter(
             (catalogue: Catalogue) =>
                 moment(catalogue.expiryDate).isAfter(moment()) &&
                 !moment(catalogue.expiryDate).isBefore(
@@ -148,13 +160,13 @@ export function getOkCatalogues() {
                         .add(365, 'days')
                         .endOf('day')
                 )
-        );
-}
+        )
+);
 
 export function DateCheckService(catalogues: Catalogue[]) {
-    let expiredCatalogues = 0;
-    let soonCatalogues = 0;
-    let okCatalogues = 0;
+    let expired = 0;
+    let soon = 0;
+    let ok = 0;
     let date: moment.Moment;
     let today: moment.Moment;
     let end: moment.Moment;
@@ -168,21 +180,16 @@ export function DateCheckService(catalogues: Catalogue[]) {
                 .endOf('day');
 
             if (date.isBefore(today)) {
-                expiredCatalogues++;
+                expired++;
             }
             if (date.isAfter(today) && date.isBefore(end)) {
-                soonCatalogues++;
+                soon++;
             }
             if (date.isAfter(today) && !date.isBefore(end)) {
-                okCatalogues++;
+                ok++;
             }
         });
-        return [expiredCatalogues, soonCatalogues, okCatalogues];
+        return [expired, soon, ok];
     }
     return [0, 0, 0];
-}
-
-export function getCataloguesOnSearch(id: number) {
-    return (state: AppState) =>
-        state.catalogue.catalogues.filter((catalogue: Catalogue) => catalogue.id === id);
 }

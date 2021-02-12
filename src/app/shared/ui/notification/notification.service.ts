@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NotificationsService } from 'angular2-notifications';
 import { NotificationType } from 'app/shared/ui/notification/notification-type';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class NotificationService {
     constructor(readonly notificationsService: NotificationsService) {}
 
