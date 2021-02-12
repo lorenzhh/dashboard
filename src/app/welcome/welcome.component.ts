@@ -12,8 +12,6 @@ import {
 import { ChartData } from 'app/shared/chart/chart-data.model';
 import { NavBarService } from 'app/shared/services/nav-bar.service';
 import { AppState } from 'app/shared/store/app.model';
-import { User } from 'app/shared/user/user.model';
-import { currentUser } from 'app/shared/user/user.selectors';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -23,9 +21,6 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
     year = getThisYear();
-
-    currentUser: User;
-    activeUserSubscribtion: Subscription;
 
     cataloguesOfThisYear: Observable<Catalogue[]>;
     cataloguesOfNextYear: Observable<Catalogue[]>;
@@ -56,10 +51,6 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     ];
 
     constructor(readonly nav: NavBarService, readonly store: Store<AppState>) {
-        this.activeUserSubscribtion = this.store
-            .select(currentUser)
-            .subscribe(activeUser => (this.currentUser = activeUser));
-
         this.cataloguesOfThisYear = this.store.pipe(select(cataloguesOfThisYear));
         this.cataloguesOfThisYearSubscription = this.cataloguesOfThisYear.subscribe(
             catalogues =>
@@ -98,6 +89,5 @@ export class WelcomeComponent implements OnInit, OnDestroy {
         this.cataloguesOfThisYearSubscription.unsubscribe();
         this.cataloguesOfNextYearSubscription.unsubscribe();
         this.cataloguesOfNextNextYearSubscription.unsubscribe();
-        this.activeUserSubscribtion.unsubscribe();
     }
 }

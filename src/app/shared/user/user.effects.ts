@@ -5,16 +5,21 @@ import { UserActions } from 'app/shared/user/user.actions';
 import { User } from 'app/shared/user/user.model';
 import { UserService } from 'app/shared/user/user.service';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { RouterActions } from '../router/router';
 
 @Injectable()
 export class UserEffects {
     LoadUser$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
             ofType(UserActions.Authenticate),
-            switchMap(userLogin =>
-                this.userService.login(userLogin).pipe(
-                    map((user: User) => UserActions.Authenticated(user)),
+            switchMap(payload =>
+                this.userService.login(payload.login).pipe(
+                    tap(user => localStorage.setItem('currentUser', JSON.stringify(user))),
+                    mergeMap((user: User) => [
+                        UserActions.Authenticated(user),
+                        RouterActions.GO({ path: [payload.redirectUrl] })
+                    ]),
                     catchError(() => of(UserActions.AuthenticateError(null)))
                 )
             )
@@ -26,7 +31,11 @@ export class UserEffects {
             ofType(UserActions.Destroy),
             switchMap(() =>
                 this.userService.logout().pipe(
-                    map((destroyUser: any) => UserActions.Destroyed(destroyUser)),
+                    tap(() => localStorage.removeItem('currentUser')),
+                    mergeMap((user: User) => [
+                        UserActions.Destroyed(user),
+                        RouterActions.GO({ path: ['login'] }),
+                    ]),
                     catchError(() => of(UserActions.DestroyError(null)))
                 )
             )

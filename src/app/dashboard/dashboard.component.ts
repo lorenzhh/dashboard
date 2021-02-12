@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { dashboardAnimation } from 'app/shared/animation/dashboard.animation';
 import { Catalogue } from 'app/shared/catalogues/catalogue.model';
@@ -12,9 +12,7 @@ import {
 } from 'app/shared/catalogues/catalogues.selectors';
 import { NavBarService } from 'app/shared/services/nav-bar.service';
 import { AppState } from 'app/shared/store/app.model';
-import { User } from 'app/shared/user/user.model';
-import { currentUser } from 'app/shared/user/user.selectors';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 interface HTMLInputEvent extends Event {
     target: HTMLInputElement & EventTarget;
@@ -24,6 +22,7 @@ interface HTMLInputEvent extends Event {
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [dashboardAnimation],
     host: {
         '[@dashboardAnimation]': 'true',
@@ -31,20 +30,14 @@ interface HTMLInputEvent extends Event {
         '[style.position]': '"absolute"'
     }
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
     isLoading: Observable<boolean>;
-    activeUserSubscribtion: Subscription;
     catalogues: Observable<Catalogue[]>;
-    currentUser: User;
     pdfType = 'application/pdf';
     zipType = 'application/x-zip-compressed';
 
     constructor(readonly nav: NavBarService, readonly store: Store<AppState>) {
         this.isLoading = this.store.pipe(select(isLoading));
-
-        this.activeUserSubscribtion = this.store
-            .select(currentUser)
-            .subscribe(activeUser => (this.currentUser = activeUser));
         this.catalogues = this.store.pipe(select(allCatalogues));
     }
 
@@ -52,10 +45,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.nav.show();
         this.nav.setActiveView('dashboard');
         this.store.dispatch(CatalougeActions.Load());
-    }
-
-    ngOnDestroy() {
-        this.activeUserSubscribtion.unsubscribe();
     }
 
     deleteCatalogue(catalogue: Catalogue) {
@@ -75,7 +64,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (elem.files.length > 0) {
             const formData: FormData = new FormData();
             formData.append('file', elem.files[0]);
-            formData.append('user_id', this.currentUser.id.toString());
             formData.append('file_name', formData.get('file')['name']);
             if (formData.get('file')['type'] === this.pdfType) {
                 this.store.dispatch(CatalougeActions.Add({ formData }));

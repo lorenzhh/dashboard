@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { InternetConnectionCheckService } from 'app/shared/services/internet-connection-check.service';
 import { NotificationType } from 'app/shared/ui/notification/notification-type';
 import { NotificationService } from 'app/shared/ui/notification/notification.service';
-import { User } from 'app/shared/user/user.model';
 import { Login } from 'app/shared/user/login.model';
+import { User } from 'app/shared/user/user.model';
 import { environment } from 'environments/environment';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
@@ -32,7 +32,6 @@ export class UserService {
                 map((list: User[]) => list[0]),
                 map((activeUser: User) => {
                     if (activeUser) {
-                        window.localStorage.setItem('currentUser', JSON.stringify(activeUser));
                         return activeUser;
                     } else {
                         throw new Error('Ungültige Anmeldedaten!');
@@ -50,11 +49,8 @@ export class UserService {
             );
     }
 
-    logout() {
-        return new Observable(observer => {
-            window.localStorage.removeItem('currentUser');
-            return observer.next({});
-        });
+    logout(): Observable<unknown> {
+        return of({});
     }
 
     private getRequestOptions(user: Login) {

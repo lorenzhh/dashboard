@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { overviewAnimation } from 'app/shared/animation/overview.Animation';
 import { Catalogue } from 'app/shared/catalogues/catalogue.model';
 import { CatalougeActions } from 'app/shared/catalogues/catalogues.actions';
 import {
-    DateCheckService,
     allCatalogues,
+    DateCheckService,
     expiredCatalogues,
     okCatalogues,
     soonCatalogues
@@ -13,14 +13,13 @@ import {
 import { ChartData } from 'app/shared/chart/chart-data.model';
 import { NavBarService } from 'app/shared/services/nav-bar.service';
 import { AppState } from 'app/shared/store/app.model';
-import { User } from 'app/shared/user/user.model';
-import { currentUser } from 'app/shared/user/user.selectors';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-overview',
     templateUrl: './overview.component.html',
     styleUrls: ['./overview.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [overviewAnimation],
     host: {
         '[@overviewAnimation]': 'true',
@@ -28,22 +27,16 @@ import { Observable, Subscription } from 'rxjs';
         '[style.position]': '"absolute"'
     }
 })
-export class OverviewComponent implements OnInit, OnDestroy {
+export class OverviewComponent implements OnInit {
     catalogues: Observable<Catalogue[]>;
     title = 'Alle Kataloge';
     chartData: ChartData;
-    Subscription: Subscription;
-    activeUserSubscribtion: Subscription;
-    currentUser: User;
     pieType = 'pie';
     labels: string[] = ['Abgelaufen', 'Bald', 'In Ordnung'];
 
     constructor(readonly nav: NavBarService, readonly store: Store<AppState>) {
-        this.activeUserSubscribtion = this.store
-            .select(currentUser)
-            .subscribe(activeUser => (this.currentUser = activeUser));
         this.catalogues = this.store.pipe(select(allCatalogues));
-        this.Subscription = this.catalogues.subscribe(catalogues => {
+        this.catalogues.subscribe(catalogues => {
             this.chartData = [
                 {
                     data: DateCheckService(catalogues)
@@ -52,15 +45,10 @@ export class OverviewComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.nav.show();
         this.nav.setActiveView('overview');
         this.store.dispatch(CatalougeActions.Load());
-    }
-
-    ngOnDestroy() {
-        this.Subscription.unsubscribe();
-        this.activeUserSubscribtion.unsubscribe();
     }
 
     selectedCatalogue(catalogue: Catalogue) {
