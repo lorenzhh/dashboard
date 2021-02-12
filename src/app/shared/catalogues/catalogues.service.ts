@@ -1,11 +1,11 @@
+import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Catalogue } from 'app/shared/catalogues/catalogue.model';
 import { InternetConnectionCheckService } from 'app/shared/services/internet-connection-check.service';
 import { NotificationType } from 'app/shared/ui/notification/notification-type';
 import { NotificationService } from 'app/shared/ui/notification/notification.service';
 import { environment } from 'environments/environment';
-import { saveAs } from 'file-saver';
 import { toString, trim } from 'lodash';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -18,7 +18,8 @@ export class CataloguesService {
     constructor(
         readonly httpClient: HttpClient,
         readonly notificationService: NotificationService,
-        readonly checkConnection: InternetConnectionCheckService
+        readonly checkConnection: InternetConnectionCheckService,
+        @Inject(DOCUMENT) private document: any
     ) {
         this.checkConnection
             .InternetSituation()
@@ -78,7 +79,7 @@ export class CataloguesService {
 
     downloadCatalogue(catalogue: Catalogue) {
         return this.httpClient
-            .get(catalogue.path, {
+            .get('/pdf', {
                 responseType: 'blob'
             })
             .pipe(
@@ -86,7 +87,7 @@ export class CataloguesService {
                     const mediaType = 'application/pdf';
                     const blob = new Blob([response], { type: mediaType });
                     const catalogueName = catalogue.name;
-                    return saveAs(blob, trim(toString(catalogueName)));
+                    return this.saveFile(blob, trim(toString(catalogueName)));
                 }),
                 catchError((error: HttpErrorResponse) => {
                     if (!this.internetConnectionAvailable) {
@@ -95,6 +96,16 @@ export class CataloguesService {
                     return this.handleResponse(error.statusText, NotificationType.error);
                 })
             );
+    }
+
+    private saveFile(blob: Blob, fileName: string): void {
+        const url = window.URL.createObjectURL(blob);
+        const link = this.document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        this.document.body.appendChild(link);
+        link.click();
+        this.document.body.removeChild(link);
     }
 
     approveCatalogue(catalogue: Catalogue) {
