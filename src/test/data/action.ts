@@ -1,5 +1,5 @@
-import { cloneDeep } from 'lodash';
 import { Action } from '@ngrx/store';
+import { cloneDeep } from 'test/helpers/clone-deep.helper';
 
 interface EmptyAction {
     type: undefined;

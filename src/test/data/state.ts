@@ -1,5 +1,5 @@
-import { cloneDeep } from 'lodash';
 import { AppState } from 'app/shared/store/app.model';
+import { cloneDeep } from 'test/helpers/clone-deep.helper';
 
 const emptyState: AppState = {
     layout: {
@@ -9,7 +9,7 @@ const emptyState: AppState = {
         catalogue: null,
         catalogues: null,
         isLoading: false,
-        selectedCatalogue: null
+        selected: null
     },
 
     user: {

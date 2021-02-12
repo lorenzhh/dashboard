@@ -6,7 +6,6 @@ import { InternetConnectionCheckService } from 'app/shared/services/internet-con
 import { NotificationType } from 'app/shared/ui/notification/notification-type';
 import { NotificationService } from 'app/shared/ui/notification/notification.service';
 import { environment } from 'environments/environment';
-import { toString, trim } from 'lodash';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -87,7 +86,7 @@ export class CataloguesService {
                     const mediaType = 'application/pdf';
                     const blob = new Blob([response], { type: mediaType });
                     const catalogueName = catalogue.name;
-                    return this.saveFile(blob, trim(toString(catalogueName)));
+                    return this.saveFile(blob, catalogueName.toString().trim());
                 }),
                 catchError((error: HttpErrorResponse) => {
                     if (!this.internetConnectionAvailable) {

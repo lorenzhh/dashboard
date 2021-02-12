@@ -6,7 +6,6 @@ import { NotificationService } from 'app/shared/ui/notification/notification.ser
 import { User } from 'app/shared/user/user.model';
 import { Login } from 'app/shared/user/login.model';
 import { environment } from 'environments/environment';
-import { isEmpty } from 'lodash';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -30,7 +29,7 @@ export class UserService {
             .pipe(
                 map((list: User[]) => list[0]),
                 map((activeUser: User) => {
-                    if (!isEmpty(activeUser)) {
+                    if (activeUser) {
                         window.localStorage.setItem('currentUser', JSON.stringify(activeUser));
                         return activeUser;
                     } else {

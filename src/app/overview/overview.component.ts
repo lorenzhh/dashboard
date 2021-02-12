@@ -15,7 +15,6 @@ import { NavBarService } from 'app/shared/services/nav-bar.service';
 import { AppState } from 'app/shared/store/app.model';
 import { User } from 'app/shared/user/user.model';
 import { getCurrentUser } from 'app/shared/user/user.selectors';
-import { isNil } from 'lodash';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -69,7 +68,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
     }
 
     selectedPie(e: any): void {
-        if (!isNil(e.active[0])) {
+        if (e.active[0]) {
             const selectedChart = e.active[0]._index;
             if (selectedChart === 0) {
                 this.title = 'Abgelaufene Kataloge';

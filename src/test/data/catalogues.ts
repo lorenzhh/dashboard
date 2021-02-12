@@ -1,5 +1,5 @@
-import { cloneDeep } from 'lodash';
 import { Catalogue } from 'app/shared/catalogues/catalogue.model';
+import { cloneDeep } from 'test/helpers/clone-deep.helper';
 
 const catalogues: Catalogue[] = [
     {
