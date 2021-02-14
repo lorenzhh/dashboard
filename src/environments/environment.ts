@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  backendUrl: '/api/',
+  backendUrl: '/api',
   sessionPreservation: true
 };

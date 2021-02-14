@@ -18,7 +18,7 @@ export class UserEffects {
                     tap(user => localStorage.setItem('currentUser', JSON.stringify(user))),
                     mergeMap((user: User) => [
                         UserActions.Authenticated(user),
-                        RouterActions.GO({ path: [payload.redirectUrl] })
+                        RouterActions.Navigate({ path: [payload.redirectUrl] })
                     ]),
                     catchError(() => of(UserActions.AuthenticateError(null)))
                 )
@@ -34,7 +34,7 @@ export class UserEffects {
                     tap(() => localStorage.removeItem('currentUser')),
                     mergeMap((user: User) => [
                         UserActions.Destroyed(user),
-                        RouterActions.GO({ path: ['login'] }),
+                        RouterActions.Navigate({ path: ['login'] }),
                     ]),
                     catchError(() => of(UserActions.DestroyError(null)))
                 )

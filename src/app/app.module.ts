@@ -9,11 +9,13 @@ import { AppRoutingModule } from 'app/app-routing';
 import { AppComponent } from 'app/app.component';
 import { effects } from 'app/shared/store/effects';
 import { reducers, REDUCERS_TOKEN } from 'app/shared/store/reducers';
+import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
     declarations: [AppComponent],
     imports: [
+        CoreModule,
         BrowserModule,
         HttpClientModule,
         AppRoutingModule,

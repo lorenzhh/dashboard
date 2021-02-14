@@ -6,5 +6,4 @@ export interface Catalogue {
     path: string;
     expiryDate: Date;
     approved: boolean;
-    user: number;
 }

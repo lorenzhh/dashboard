@@ -11,4 +11,5 @@ export class CatalogueComponent {
     @Output() downloadAction = new EventEmitter();
     @Output() deleteAction = new EventEmitter();
     @Output() approveAction = new EventEmitter();
+    @Output() selectAction = new EventEmitter();
 }

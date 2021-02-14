@@ -5,7 +5,7 @@
         *ngFor="let catalogue of catalogues"
     >
         <div class="overlay"></div>
-        <div class="title" [routerLink]="[catalogue.id]">{{ catalogue.name }}</div>
+        <div class="title" (click)="selectAction.emit(catalogue)">{{ catalogue.name }}</div>
         <div class="delete" *ngIf="!catalogue.approved">
             <button class="close" (click)="deleteAction.emit(catalogue)" type="button">&times;</button>
         </div>

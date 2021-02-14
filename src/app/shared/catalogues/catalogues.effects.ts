@@ -30,7 +30,7 @@ export class CataloguesEffects {
                     map((catalogue: Catalogue) => CatalougeActions.OneLoaded(catalogue)),
                     catchError(() => [
                         CatalougeActions.LoadOneError(null),
-                        RouterActions.GO({ path: ['dashboard'] })
+                        RouterActions.Navigate({ path: ['dashboard'] })
                     ])
                 )
             )

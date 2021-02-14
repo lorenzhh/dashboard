@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
         }
 
         this.store.dispatch(
-            RouterActions.GO({
+            RouterActions.Navigate({
                 path: ['login'],
                 query: {
                     redirectUrl: state.url
