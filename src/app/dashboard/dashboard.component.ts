@@ -10,7 +10,6 @@ import {
     isLoading,
     notAprrovedCatalogues
 } from 'app/shared/catalogues/catalogues.selectors';
-import { RouterActions } from 'app/shared/router/router';
 import { NavBarService } from 'app/shared/services/nav-bar.service';
 import { AppState } from 'app/shared/store/app.model';
 import { Observable } from 'rxjs';
@@ -106,9 +105,5 @@ export class DashboardComponent implements OnInit {
         } else {
             this.showAll();
         }
-    }
-
-    navigateToCatalogue(catalogue: Catalogue) {
-        this.store.dispatch(RouterActions.Navigate({ path: [catalogue.id] }));
     }
 }

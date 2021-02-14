@@ -6,7 +6,6 @@
 <app-catalogue
     [catalogues]="catalogues$ | async"
     (approveAction)="approveCatalogue($event)"
-    (selectAction)="navigateToCatalogue($event)"
     (deleteAction)="deleteCatalogue($event)"
     (downloadAction)="downloadCatalogue($event)"
 ></app-catalogue>

@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
@@ -11,6 +11,7 @@ import { AppComponent } from 'app/app.component';
 import { effects } from 'app/shared/store/effects';
 import { reducers, REDUCERS_TOKEN } from 'app/shared/store/reducers';
 import { CoreModule } from './core/core.module';
+import { GlobalErrorHandler } from './core/handlers/error.handler';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
@@ -29,6 +30,7 @@ import { SharedModule } from './shared/shared.module';
     ],
 
     providers: [
+        { provide: ErrorHandler, useClass: GlobalErrorHandler },
         { provide: REDUCERS_TOKEN, useValue: reducers },
         { provide: LOCALE_ID, useValue: 'de-DE' }
     ],

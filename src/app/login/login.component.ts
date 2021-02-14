@@ -40,7 +40,9 @@ export class LoginComponent implements OnInit {
     }
 
     submitted(input: Login): void {
-        input.username = input.username.toLowerCase().trim();
-        this.store.dispatch(UserActions.Authenticate({ login: input, redirectUrl: this.redirectUrl }));
+        const clone = Object.assign({}, input);
+
+        clone.username = input.username.toLowerCase().trim();
+        this.store.dispatch(UserActions.Authenticate({ login: clone, redirectUrl: this.redirectUrl }));
     }
 }

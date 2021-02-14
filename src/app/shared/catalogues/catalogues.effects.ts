@@ -4,7 +4,6 @@ import { Action } from '@ngrx/store';
 import { CataloguesService } from 'app/shared/catalogues/catalogues.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { RouterActions } from '../router/router';
 import { Catalogue } from './catalogue.model';
 import { CatalougeActions } from './catalogues.actions';
 
@@ -28,10 +27,7 @@ export class CataloguesEffects {
             switchMap(payload =>
                 this.cataloguesService.loadOne(payload.id).pipe(
                     map((catalogue: Catalogue) => CatalougeActions.OneLoaded(catalogue)),
-                    catchError(() => [
-                        CatalougeActions.LoadOneError(null),
-                        RouterActions.Navigate({ path: ['dashboard'] })
-                    ])
+                    catchError(() => [CatalougeActions.LoadOneError(null)])
                 )
             )
         )
