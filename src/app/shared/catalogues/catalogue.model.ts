@@ -1,5 +1,7 @@
+export type CatalogueKey = number;
+
 export interface Catalogue {
-    id: number;
+    id: CatalogueKey;
     name: string;
     path: string;
     expiryDate: Date;

@@ -3,12 +3,10 @@ import { Store } from '@ngrx/store';
 import { LayoutActions } from 'app/shared/layout/layout.actions';
 import { Layout } from 'app/shared/layout/layout.model';
 import { AppState } from 'app/shared/store/app.model';
-import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class NavBarService {
     visible: boolean;
-    activeView: Observable<string>;
 
     constructor(readonly store: Store<AppState>) {
         this.visible = false;

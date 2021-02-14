@@ -1,6 +1,6 @@
 <main>
     <app-navigation
-        [internetConnectionAvailable]="internetConnectionAvailable | async"
+        [internetConnectionAvailable]="internetConnectionAvailable$ | async"
         (logoutButtonClicked)="logout()"
     ></app-navigation>
 

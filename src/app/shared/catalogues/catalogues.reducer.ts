@@ -3,17 +3,15 @@ import { Catalogue } from 'app/shared/catalogues/catalogue.model';
 import { CatalougeActions } from './catalogues.actions';
 
 export interface State {
-    catalogue: Catalogue;
     catalogues: Catalogue[];
     isLoading: boolean;
     selected: Catalogue;
 }
 
 const initialState: State = {
-    catalogue: null,
     catalogues: [],
     isLoading: false,
-    selected: null
+    selected: undefined
 };
 
 export const reducer: ActionReducer<State> = createReducer(

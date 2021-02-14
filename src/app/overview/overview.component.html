@@ -6,8 +6,8 @@
 ></app-shared-chart>
 
 <app-catalogue-list
-    [catalogues]="catalogues | async"
+    [catalogues]="catalogues"
     [title]="title"
     (catalogueSelected)="selectedCatalogue($event)"
-    *ngIf="(catalogues | async)"
+    *ngIf="(catalogues$ | async) as catalogues"
 ></app-catalogue-list>

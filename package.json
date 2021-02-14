@@ -37,6 +37,7 @@
     "ng2-bootstrap": "^1.6.3",
     "ng2-charts": "^2.4.2",
     "ng2-pdf-viewer": "^6.3.2",
+    "pdfjs-dist": "2.5.207",
     "ngrx-store-freeze": "^0.2.4",
     "ngrx-store-logger": "^0.2.4",
     "rxjs": "^6.6.3",

@@ -5,26 +5,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { SimpleNotificationsModule } from 'angular2-notifications';
 import { AppRoutingModule } from 'app/app-routing';
 import { AppComponent } from 'app/app.component';
 import { effects } from 'app/shared/store/effects';
 import { reducers, REDUCERS_TOKEN } from 'app/shared/store/reducers';
-import { UiModule } from 'app/shared/ui/ui.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
     declarations: [AppComponent],
-
     imports: [
         BrowserModule,
         HttpClientModule,
         AppRoutingModule,
-        UiModule,
         BrowserAnimationsModule,
-        SimpleNotificationsModule.forRoot(),
         EffectsModule.forRoot(effects),
         StoreModule.forRoot(REDUCERS_TOKEN),
-        StoreDevtoolsModule.instrument({ maxAge: 50 })
+        StoreDevtoolsModule.instrument({ maxAge: 50 }),
+        SharedModule.forRoot()
     ],
 
     providers: [

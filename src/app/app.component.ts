@@ -11,7 +11,7 @@ import { UserActions } from './shared/user/user.actions';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    internetConnectionAvailable: Observable<boolean>;
+    internetConnectionAvailable$: Observable<boolean>;
 
     routerSubscription: Subscription;
     notificationOptions = {
@@ -24,7 +24,7 @@ export class AppComponent {
         private store: Store<AppState>,
         private checkConnection: InternetConnectionCheckService
     ) {
-        this.internetConnectionAvailable = this.checkConnection.InternetSituation();
+        this.internetConnectionAvailable$ = this.checkConnection.InternetSituation();
     }
 
     logout(): void {

@@ -22,9 +22,9 @@ import { Observable, Subscription } from 'rxjs';
 export class WelcomeComponent implements OnInit, OnDestroy {
     year = getThisYear();
 
-    cataloguesOfThisYear: Observable<Catalogue[]>;
-    cataloguesOfNextYear: Observable<Catalogue[]>;
-    cataloguesOfNextNextYear: Observable<Catalogue[]>;
+    cataloguesOfThisYear$: Observable<Catalogue[]>;
+    cataloguesOfNextYear$: Observable<Catalogue[]>;
+    cataloguesOfNextNextYear$: Observable<Catalogue[]>;
 
     chartDataOfThisYear: ChartData;
     chartDataOfNextYear: ChartData;
@@ -51,8 +51,8 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     ];
 
     constructor(readonly nav: NavBarService, readonly store: Store<AppState>) {
-        this.cataloguesOfThisYear = this.store.pipe(select(cataloguesOfThisYear));
-        this.cataloguesOfThisYearSubscription = this.cataloguesOfThisYear.subscribe(
+        this.cataloguesOfThisYear$ = this.store.pipe(select(cataloguesOfThisYear));
+        this.cataloguesOfThisYearSubscription = this.cataloguesOfThisYear$.subscribe(
             catalogues =>
                 (this.chartDataOfThisYear = [
                     {
@@ -60,8 +60,8 @@ export class WelcomeComponent implements OnInit, OnDestroy {
                     }
                 ])
         );
-        this.cataloguesOfNextYear = this.store.pipe(select(cataloguesOfNextYear));
-        this.cataloguesOfNextYearSubscription = this.cataloguesOfNextYear.subscribe(
+        this.cataloguesOfNextYear$ = this.store.pipe(select(cataloguesOfNextYear));
+        this.cataloguesOfNextYearSubscription = this.cataloguesOfNextYear$.subscribe(
             catalogues =>
                 (this.chartDataOfNextYear = [
                     {
@@ -69,8 +69,8 @@ export class WelcomeComponent implements OnInit, OnDestroy {
                     }
                 ])
         );
-        this.cataloguesOfNextNextYear = this.store.pipe(select(cataloguesOfNextTwoYear));
-        this.cataloguesOfNextNextYearSubscription = this.cataloguesOfNextNextYear.subscribe(
+        this.cataloguesOfNextNextYear$ = this.store.pipe(select(cataloguesOfNextTwoYear));
+        this.cataloguesOfNextNextYearSubscription = this.cataloguesOfNextNextYear$.subscribe(
             catalogues =>
                 (this.chartDataOfNextNextYear = [
                     {

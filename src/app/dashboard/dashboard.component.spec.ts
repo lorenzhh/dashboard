@@ -3,9 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { DashboardComponent } from 'app/dashboard/dashboard.component';
-import { ServicesModule } from 'app/shared/services/services.module';
 import { SpinnerComponent } from 'app/shared/ui/spinner/spinner.component';
-import { DialogService } from 'ng2-bootstrap-modal';
 import { expectElementFromFixture } from 'ngx-test-helpers';
 import { PipesModule } from '../shared/ui/pipes/pipes.module';
 import { CatalogueComponent } from './catalogue/catalogue.component';
@@ -21,7 +19,6 @@ describe('Dashboard', () => {
             TestBed.configureTestingModule({
                 imports: [
                     ReactiveFormsModule,
-                    ServicesModule,
                     RouterTestingModule,
                     PipesModule,
                     StoreModule.forRoot({})
@@ -34,7 +31,7 @@ describe('Dashboard', () => {
                     CatalogueComponent,
                     UploadButtonComponent
                 ],
-                providers: [DialogService, Store]
+                providers: [Store]
             }).compileComponents();
         })
     );

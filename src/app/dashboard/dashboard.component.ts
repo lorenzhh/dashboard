@@ -6,13 +6,14 @@ import { CatalougeActions } from 'app/shared/catalogues/catalogues.actions';
 import {
     allCatalogues,
     aprrovedCatalogues,
-    cataloguesOnSearch,
+    findCatalogueById,
     isLoading,
     notAprrovedCatalogues
 } from 'app/shared/catalogues/catalogues.selectors';
 import { NavBarService } from 'app/shared/services/nav-bar.service';
 import { AppState } from 'app/shared/store/app.model';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface HTMLInputEvent extends Event {
     target: HTMLInputElement & EventTarget;
@@ -25,20 +26,18 @@ interface HTMLInputEvent extends Event {
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [dashboardAnimation],
     host: {
-        '[@dashboardAnimation]': 'true',
-        '[style.display]': '"block"',
-        '[style.position]': '"absolute"'
+        '[@dashboardAnimation]': 'true'
     }
 })
 export class DashboardComponent implements OnInit {
-    isLoading: Observable<boolean>;
-    catalogues: Observable<Catalogue[]>;
+    isLoading$: Observable<boolean>;
+    catalogues$: Observable<Catalogue[]>;
     pdfType = 'application/pdf';
     zipType = 'application/x-zip-compressed';
 
     constructor(readonly nav: NavBarService, readonly store: Store<AppState>) {
-        this.isLoading = this.store.pipe(select(isLoading));
-        this.catalogues = this.store.pipe(select(allCatalogues));
+        this.isLoading$ = this.store.pipe(select(isLoading));
+        this.catalogues$ = this.store.pipe(select(allCatalogues));
     }
 
     ngOnInit() {
@@ -53,6 +52,10 @@ export class DashboardComponent implements OnInit {
 
     approveCatalogue(catalogue: Catalogue) {
         this.store.dispatch(CatalougeActions.Approve(catalogue));
+    }
+
+    selectCatalogue(catalogue: Catalogue) {
+        this.store.dispatch(CatalougeActions.Select(catalogue));
     }
 
     downloadCatalogue(catalogue: Catalogue) {
@@ -75,15 +78,15 @@ export class DashboardComponent implements OnInit {
     }
 
     showApproved() {
-        this.catalogues = this.store.pipe(select(aprrovedCatalogues));
+        this.catalogues$ = this.store.pipe(select(aprrovedCatalogues));
     }
 
     showNotApproved() {
-        this.catalogues = this.store.pipe(select(notAprrovedCatalogues));
+        this.catalogues$ = this.store.pipe(select(notAprrovedCatalogues));
     }
 
     showAll() {
-        this.catalogues = this.store.pipe(select(allCatalogues));
+        this.catalogues$ = this.store.pipe(select(allCatalogues));
     }
 
     handleOption(selecetedOption: number) {
@@ -100,7 +103,10 @@ export class DashboardComponent implements OnInit {
 
     filterOption(form: any) {
         if (form.id) {
-            this.catalogues = this.store.pipe(select(cataloguesOnSearch, { id: +form.id }));
+            this.catalogues$ = this.store.pipe(
+                select(findCatalogueById, { id: +form.id }),
+                map(catalogue => [catalogue])
+            );
         } else {
             this.showAll();
         }
