@@ -1,3 +1,8 @@
-<p>
-    report works!
-</p>
+<pdf-viewer
+    [src]="(selectedCatalogue$ | async).path"
+    [style.width.%]="100"
+    [style.height.%]="100"
+    [zoom]="0"
+    [page]="1"
+    [original-size]="false"
+></pdf-viewer>

@@ -1,13 +1,11 @@
-<!-- <pdf-viewer [src]="catalogue.path" [show-all]="false" [zoom]="0" [page]="1" [original-size]="false"></pdf-viewer> -->
 <div class="list">
-    <!-- [routerLink]="['/dashboard', catalogue.id]" -->
     <div
         class="file"
         [ngClass]="{ approved: catalogue.approved, notApproved: !catalogue.approved }"
         *ngFor="let catalogue of catalogues"
     >
         <div class="overlay"></div>
-        <div class="title">{{ catalogue.name }}</div>
+        <div class="title" [routerLink]="[catalogue.id]">{{ catalogue.name }}</div>
         <div class="delete" *ngIf="!catalogue.approved">
             <button class="close" (click)="deleteAction.emit(catalogue)" type="button">&times;</button>
         </div>

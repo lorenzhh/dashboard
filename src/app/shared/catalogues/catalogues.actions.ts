@@ -1,10 +1,14 @@
 import { createAction, props } from '@ngrx/store';
-import { Catalogue } from 'app/shared/catalogues/catalogue.model';
+import { Catalogue, CatalogueKey } from 'app/shared/catalogues/catalogue.model';
 
 export namespace CatalougeActions {
     export const Load = createAction('[Catalogue] Load');
     export const Loaded = createAction('[Catalogue] Loaded', props<{ payload: Catalogue[] }>());
     export const LoadError = createAction('[Catalogue] Load Error', props<{ payload: Catalogue[] }>());
+
+    export const LoadOne = createAction('[Catalogue] Load One', props<{ id: CatalogueKey }>());
+    export const OneLoaded = createAction('[Catalogue] One Loaded', props<Catalogue>());
+    export const LoadOneError = createAction('[Catalogue] Load One Error', props<Catalogue>());
 
     export const Add = createAction('[Catalogue] Add', props<{ formData: FormData }>());
     export const Added = createAction('[Catalogue] Added', props<Catalogue>());

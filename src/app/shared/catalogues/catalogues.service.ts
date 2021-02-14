@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Catalogue } from 'app/shared/catalogues/catalogue.model';
+import { Catalogue, CatalogueKey } from 'app/shared/catalogues/catalogue.model';
 import { InternetConnectionCheckService } from 'app/shared/services/internet-connection-check.service';
 import { NotificationType } from 'app/shared/ui/notification/notification-type';
 import { NotificationService } from 'app/shared/ui/notification/notification.service';
@@ -25,7 +25,7 @@ export class CataloguesService {
             .subscribe((status: boolean) => (this.internetConnectionAvailable = status));
     }
 
-    loadCatalogues(): Observable<Catalogue[]> {
+    loadAll(): Observable<Catalogue[]> {
         return this.httpClient.get<Catalogue[]>(this.getUrl(this.resourceName)).pipe(
             catchError((error: HttpErrorResponse) => {
                 if (!this.internetConnectionAvailable) {
@@ -36,8 +36,18 @@ export class CataloguesService {
         );
     }
 
-    uploadCatalogue(data: FormData) {
-        console.log(data);
+    loadOne(id: CatalogueKey): Observable<Catalogue> {
+        return this.httpClient.get<Catalogue>(this.getUrl(this.resourceName) + '/' + id).pipe(
+            catchError((error: HttpErrorResponse) => {
+                if (!this.internetConnectionAvailable) {
+                    return this.handleResponse('No Internet Connection!', NotificationType.warn);
+                }
+                return this.handleResponse(error.statusText, NotificationType.error);
+            })
+        );
+    }
+
+    upload(data: FormData) {
         const body = {
             id: Math.floor(Math.random() * (8000 - 4000 + 1)) + 200,
             name: data.get('file_name'),
@@ -61,7 +71,7 @@ export class CataloguesService {
         );
     }
 
-    deleteCatalogue(catalogue: Catalogue) {
+    delete(catalogue: Catalogue) {
         return this.httpClient.delete(this.getUrl(this.resourceName) + '/' + catalogue.id).pipe(
             map(() => {
                 this.handleResponse('File deleted succesfully!', NotificationType.success);
@@ -76,7 +86,7 @@ export class CataloguesService {
         );
     }
 
-    downloadCatalogue(catalogue: Catalogue) {
+    download(catalogue: Catalogue) {
         return this.httpClient
             .get('/pdf', {
                 responseType: 'blob'
@@ -107,7 +117,7 @@ export class CataloguesService {
         this.document.body.removeChild(link);
     }
 
-    approveCatalogue(catalogue: Catalogue) {
+    approve(catalogue: Catalogue) {
         const body: Catalogue = {
             id: catalogue.id,
             name: catalogue.name,

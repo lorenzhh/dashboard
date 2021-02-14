@@ -4,6 +4,7 @@ import { Action } from '@ngrx/store';
 import { CataloguesService } from 'app/shared/catalogues/catalogues.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { RouterActions } from '../router/router';
 import { Catalogue } from './catalogue.model';
 import { CatalougeActions } from './catalogues.actions';
 
@@ -13,9 +14,24 @@ export class CataloguesEffects {
         this.actions$.pipe(
             ofType(CatalougeActions.Load),
             switchMap(() =>
-                this.cataloguesService.loadCatalogues().pipe(
+                this.cataloguesService.loadAll().pipe(
                     map((catalogues: Catalogue[]) => CatalougeActions.Loaded({ payload: catalogues })),
                     catchError(() => of(CatalougeActions.LoadError({ payload: [] })))
+                )
+            )
+        )
+    );
+
+    loadOneCatalogue$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(CatalougeActions.LoadOne),
+            switchMap(payload =>
+                this.cataloguesService.loadOne(payload.id).pipe(
+                    map((catalogue: Catalogue) => CatalougeActions.OneLoaded(catalogue)),
+                    catchError(() => [
+                        CatalougeActions.LoadOneError(null),
+                        RouterActions.GO({ path: ['dashboard'] })
+                    ])
                 )
             )
         )
@@ -24,13 +40,12 @@ export class CataloguesEffects {
     addCatalogue$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
             ofType(CatalougeActions.Add),
-            switchMap(payload => {
-                console.log(payload);
-                return this.cataloguesService.uploadCatalogue(payload.formData).pipe(
+            switchMap(payload =>
+                this.cataloguesService.upload(payload.formData).pipe(
                     map((catalogue: Catalogue) => CatalougeActions.Added(catalogue)),
                     catchError(() => of(CatalougeActions.AddError(null)))
-                );
-            })
+                )
+            )
         )
     );
 
@@ -38,7 +53,7 @@ export class CataloguesEffects {
         this.actions$.pipe(
             ofType(CatalougeActions.Download),
             switchMap(catalogue =>
-                this.cataloguesService.downloadCatalogue(catalogue).pipe(
+                this.cataloguesService.download(catalogue).pipe(
                     map(() => CatalougeActions.Downloaded(catalogue)),
                     catchError(() => of(CatalougeActions.DownloadError(null)))
                 )
@@ -50,7 +65,7 @@ export class CataloguesEffects {
         this.actions$.pipe(
             ofType(CatalougeActions.Delete),
             switchMap(catalogue =>
-                this.cataloguesService.deleteCatalogue(catalogue).pipe(
+                this.cataloguesService.delete(catalogue).pipe(
                     map(() => CatalougeActions.Deleted(catalogue)),
                     catchError(() => of(CatalougeActions.DeleteError(catalogue)))
                 )
@@ -62,7 +77,7 @@ export class CataloguesEffects {
         this.actions$.pipe(
             ofType(CatalougeActions.Approve),
             switchMap(catalouge =>
-                this.cataloguesService.approveCatalogue(catalouge).pipe(
+                this.cataloguesService.approve(catalouge).pipe(
                     map((catalogue: Catalogue) => CatalougeActions.Approved(catalogue)),
                     catchError((catalogue: Catalogue) => of(CatalougeActions.ApproveError(catalogue)))
                 )

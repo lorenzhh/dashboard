@@ -19,6 +19,8 @@ export const reducer: ActionReducer<State> = createReducer(
     on(
         CatalougeActions.Load,
         CatalougeActions.LoadError,
+        CatalougeActions.LoadOne,
+        CatalougeActions.LoadOneError,
         CatalougeActions.Add,
         CatalougeActions.AddError,
         CatalougeActions.Delete,
@@ -41,7 +43,7 @@ export const reducer: ActionReducer<State> = createReducer(
         };
         return state;
     }),
-    on(CatalougeActions.Added, (state, action) => {
+    on(CatalougeActions.OneLoaded, CatalougeActions.Added, (state, action) => {
         state = {
             ...state,
             catalogues: [action, ...state.catalogues],
@@ -67,7 +69,7 @@ export const reducer: ActionReducer<State> = createReducer(
         };
         return state;
     }),
-    on(CatalougeActions.Select, (state, action) => {
+    on(CatalougeActions.OneLoaded, CatalougeActions.Select, (state, action) => {
         state = {
             ...state,
             selected: action,
